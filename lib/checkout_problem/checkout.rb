@@ -4,7 +4,8 @@ class Checkout
   end
 
   def scan(product_code)
-    @items[product_code] ||= Product.find_by_code(product_code)
+    @items[product_code] ||= LineItem.new(Product.find_by_code(product_code))
+    @items[product_code].quantity += 1
   end
 
   def count

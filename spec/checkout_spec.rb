@@ -1,22 +1,25 @@
 require 'spec_helper'
 
 describe Checkout do
-  let(:item) { Product.create(code: 'A201', price: 23, currency: 'USD') }
+  before do
+    Product.create(code: 'A201', price: 23, currency: 'USD')
+  end
 
   describe '#scan' do
-
     it 'scans the item in the checkout' do
-      expect { subject.scan(item) }.to change(subject, :count).by(1)
+      expect { subject.scan('A201') }.to change(subject, :count).by(1)
+      expect { subject.scan('A201') }.not_to change(subject, :count)
     end
   end
 
   describe '#total' do
     before do
-      subject.scan(item)
+      subject.scan('A201')
+      subject.scan('A201')
     end
 
     it 'returns the total amount to be paid' do
-      expect(subject.total).to eq(23)
+      expect(subject.total).to eq(46)
     end
   end
 end
