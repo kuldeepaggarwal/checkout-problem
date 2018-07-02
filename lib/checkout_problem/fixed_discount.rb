@@ -1,5 +1,5 @@
 class FixedDiscount < Discount
-  def net_price(total_price)
-    [total_price - discount_value, 0].max
+  def discount(total_price)
+    [discount_value, total_price].min
   end
 end

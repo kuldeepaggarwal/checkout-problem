@@ -1,5 +1,5 @@
 class PercentageDiscount < Discount
-  def net_price(total_price)
-    [total_price * ((100 - discount_value) / 100.0), 0].max
+  def discount(total_price)
+    [total_price * (discount_value / 100.0), total_price].min
   end
 end
