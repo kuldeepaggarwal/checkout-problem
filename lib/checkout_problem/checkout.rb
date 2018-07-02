@@ -8,7 +8,7 @@ class Checkout
     @items[product_code].quantity += 1
   end
 
-  def count
+  def item_count
     @items.count
   end
 

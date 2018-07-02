@@ -7,8 +7,8 @@ describe Checkout do
 
   describe '#scan' do
     it 'scans the item in the checkout' do
-      expect { subject.scan('A201') }.to change(subject, :count).by(1)
-      expect { subject.scan('A201') }.not_to change(subject, :count)
+      expect { subject.scan('A201') }.to change(subject, :item_count).by(1)
+      expect { subject.scan('A201') }.not_to change(subject, :item_count)
     end
   end
 
