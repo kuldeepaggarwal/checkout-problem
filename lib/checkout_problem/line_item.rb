@@ -9,4 +9,8 @@ class LineItem
   def price
     product.price * quantity
   end
+
+  def product_code
+    product.code
+  end
 end

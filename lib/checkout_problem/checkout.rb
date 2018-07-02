@@ -1,6 +1,7 @@
 class Checkout
-  def initialize
+  def initialize(rules = [])
     @items = {}
+    @rules = rules
   end
 
   def scan(product_code)
@@ -12,7 +13,23 @@ class Checkout
     @items.count
   end
 
-  def total
-    @items.inject(0) { |acc, (_, item)| acc += item.price }
+  # +net_price+ makes more sense here.
+  def net_price
+    rules.permutation.map do |_rules|
+      _rules.inject(total_price) { |result, rule| result = rule.apply(items).net_price(result) }
+    end.max.round(2)
   end
+  alias_method :total, :net_price
+
+  private
+
+    attr_reader :rules
+
+    def total_price
+      items.sum(&:price)
+    end
+
+    def items
+      @items.values
+    end
 end
