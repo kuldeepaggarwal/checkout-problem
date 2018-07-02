@@ -40,12 +40,13 @@ describe Checkout do
             end,
             FixedDiscount.new(3.99)
           )
-        ].shuffle
+        ]
       end
+      let(:checkout_rules) { CheckoutRules.new(rules) }
 
       context 'when first promotional code is applicable' do
         it 'returns the total amount to be paid after applying all promotions' do
-          subject = described_class.new(rules)
+          subject = described_class.new(checkout_rules)
           subject.scan('001')
           subject.scan('002')
           subject.scan('003')
@@ -55,7 +56,7 @@ describe Checkout do
 
       context 'when last promotional code is applicable' do
         it 'returns the total amount to be paid after applying all promotions' do
-          subject = described_class.new(rules)
+          subject = described_class.new(checkout_rules)
           subject.scan('002')
           subject.scan('001')
           subject.scan('002')
@@ -67,7 +68,7 @@ describe Checkout do
       context 'when both promotional code is applicable' do
         it 'returns the total amount to be paid after applying all promotions' do
           [rules, rules.reverse].each do |_rules|
-            subject = described_class.new(_rules)
+            subject = described_class.new(CheckoutRules.new(_rules))
             subject.scan('002')
             subject.scan('001')
             subject.scan('002')

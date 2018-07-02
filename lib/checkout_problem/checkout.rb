@@ -1,5 +1,5 @@
 class Checkout
-  def initialize(rules = [])
+  def initialize(rules = CheckoutRules.new)
     @items = {}
     @rules = rules
   end
@@ -15,9 +15,7 @@ class Checkout
 
   # +net_price+ makes more sense here.
   def net_price
-    rules.permutation.map do |_rules|
-      _rules.inject(total_price) { |result, rule| result = rule.apply(items).net_price(result) }
-    end.max.round(2)
+    rules.apply(total_price, items)
   end
   alias_method :total, :net_price
 
